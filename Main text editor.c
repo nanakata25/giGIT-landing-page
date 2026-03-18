@@ -5,6 +5,12 @@ void newFile(){
     printf("\n=== New File ===\n");
 
     char text[100][100];
+
+    printf("Masukkan Teks:");
+    getchar();
+    fgets(text, sizeof(text),stdin);
+
+    printf("\n File baru telah dibuat\n");
 }
 
 void openFile(){
@@ -22,6 +28,15 @@ void openFile(){
         printf("File Tidak Ada!!\n");
         return;
     }
+
+    printf("\nIsi File:\n");
+
+    while ((ch = fgetc(fp)) != EOF){
+        printf("%c", ch);
+    }
+    
+    fclose(fp);
+    
 }
 
 void saveFile(){
