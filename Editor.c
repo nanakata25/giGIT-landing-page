@@ -3,20 +3,22 @@
 #include "editor.h"
 
 void ketik_huruf(char c) {
-    int y = editor.kursorY;
     int x = editor.kursorX;
+	int y = editor.kursorY;
+    
+    int len = strlen(editor.isiTeks[x]);
 
-    int len = strlen(editor.isiTeks[y]);
-
-	if (x > len) return;
+	if (y > len) return;
     if (len >= MAKS_KOLOM - 1) return;
 
-    for (int i = len; i >= x; i--) {
-        editor.isiTeks[y][i + 1] = editor.isiTeks[y][i];
+    for (int i = len; i >= y; i--) {
+        editor.isiTeks[x][i + 1] = editor.isiTeks[x][i];
     }
 
-    editor.isiTeks[y][x] = c;
+    editor.isiTeks[x][y] = c;
 
 }
+
+
 
 
