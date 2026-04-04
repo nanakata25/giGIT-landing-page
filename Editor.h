@@ -1,7 +1,7 @@
 #ifndef EDITOR_H
 #define EDITOR_H
 
-#include "Global_dummy.h"
+#include "Global.h"
 
 // Insert karakter
 void ketik_huruf(char huruf_baru);

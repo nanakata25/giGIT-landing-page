@@ -6,17 +6,20 @@ void ketik_huruf(char c) {
     int x = editor.kursorX;
 	int y = editor.kursorY;
     
-    int len = strlen(editor.isiTeks[x]);
+    printf("insert '%c' di (%d,%d)\n",c,y,x);
+    
+    int len = strlen(editor.isiTeks[y]);
 
-	if (y > len) return;
+	if (x > len) return;
     if (len >= MAKS_KOLOM - 1) return;
 
-    for (int i = len; i >= y; i--) {
-        editor.isiTeks[x][i + 1] = editor.isiTeks[x][i];
+    for (int i = len; i >= x; i--) {
+        editor.isiTeks[y][i + 1] = editor.isiTeks[y][i];
     }
     
-    editor.isiTeks[x][y] = c;
+    editor.isiTeks[y][x] = c;
     editor.kursorX++;
+    
 }
 void hapus_backspace() {
     int y = editor.kursorY;
