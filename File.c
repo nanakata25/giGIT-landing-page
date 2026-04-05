@@ -4,7 +4,17 @@
 #include <conio.h>
 #include "File.h"
 
+void editFile();
+void newFile();
+void openFile();
+void saveFile();
+
+void editFile(){
+
+}
 void newFile(){
+    int k;
+    
     printf("\n=== New File ===\n");
 
     char text[100][100];
