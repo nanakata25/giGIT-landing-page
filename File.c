@@ -10,7 +10,28 @@ void openFile();
 void saveFile();
 
 void editFile(){
+    int k;
+    char c;
 
+    printf("== TEXT EDITOR ==\n");
+
+    while (jumlahBaris < MAX_BARIS) {
+        k = 0;
+
+        while (k < MAX_KOLOM - 1){
+            c  = getch();
+
+            if (c == 19) {
+                buffer2D[jumlahBaris][k] = '\0';
+                saveFile();
+                printf("")
+            }
+        }
+        {
+            /* code */
+        }
+        
+    }
 }
 void newFile(){
     int k;
