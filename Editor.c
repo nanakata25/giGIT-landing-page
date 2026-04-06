@@ -51,7 +51,11 @@ void hapus_backspace() {
         int len_atas = strlen(editor.isiTeks[y - 1]);
         int len_sekarang = strlen(editor.isiTeks[y]);
 
-        if (len_atas + len_sekarang >= MAKS_KOLOM - 1) return;
+         if (len_atas + len_sekarang >= MAKS_KOLOM - 1) {
+            editor.kursorY--;
+            editor.kursorX = len_atas;
+            return;
+        }
 
         strcat(editor.isiTeks[y - 1], editor.isiTeks[y]);
 
@@ -68,7 +72,6 @@ void hapus_backspace() {
     }
     else {
         int len = strlen(editor.isiTeks[y]);
-
         if (x > len) return;
 
         for (int i = x - 1; i < len; i++) {
@@ -76,20 +79,40 @@ void hapus_backspace() {
         }
 
         editor.kursorX--;
+        
+        if (y + 1 < editor.totalBaris) {
+        int len_sekarang = strlen(editor.isiTeks[y]);
+        int len_bawah = strlen(editor.isiTeks[y + 1]);
+
+        editor.isiTeks[y][len_sekarang] = editor.isiTeks[y + 1][0];
+        editor.isiTeks[y][len_sekarang + 1] = '\0';
+
+        for (int i = 0; i < len_bawah; i++) {
+            editor.isiTeks[y + 1][i] = editor.isiTeks[y + 1][i + 1];
+        }
+
+        if (strlen(editor.isiTeks[y + 1]) == 0) {
+            for (int i = y + 1; i < editor.totalBaris - 1; i++) {
+                strcpy(editor.isiTeks[i], editor.isiTeks[i + 1]);
+            }
+            editor.isiTeks[editor.totalBaris - 1][0] = '\0';
+            editor.totalBaris--;
+        }
     }
+}
 }
 
 void tekan_enter() {
     int y = editor.kursorY;
     int x = editor.kursorX;
 
-    if (editor.totalBaris >= MAKS_BARIS) return;
+    if (editor.totalBaris >= MAKS_BARIS - 1) return;
 
     int len = strlen(editor.isiTeks[y]);
 
     if (x > len) return;
 
-    for (int i = editor.totalBaris; i > y + 1; i--) {
+    for (int i = editor.totalBaris; i > y; i--) {
         strcpy(editor.isiTeks[i], editor.isiTeks[i - 1]);
     }
 
@@ -98,7 +121,6 @@ void tekan_enter() {
     editor.isiTeks[y][x] = '\0';
 
     editor.totalBaris++;
-
     editor.kursorY++;
     editor.kursorX = 0;
 }
