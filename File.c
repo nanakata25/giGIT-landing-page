@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <conio.h>
-#include "File.h"
 
-void editFile();
-void newFile();
-void openFile();
-void saveFile();
+#include "Global.h"
+#include "file.h"
+#include "Editor.h"
+#include "cursor.h"
+
 
 void editFile(){
     int k;
@@ -24,7 +24,7 @@ void editFile(){
             if (c == 19) {
                 buffer2D[jumlahBaris][k] = '\0';
                 saveFile();
-                printf("")
+                printf("\n")
             }
         }
         {
