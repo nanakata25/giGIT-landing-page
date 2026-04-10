@@ -1,5 +1,5 @@
-#ifndef EDITOR_H
-#define EDITOR_H
+#ifndef FILE_H
+#define FILE_H
 
 void render();
 void editfile();

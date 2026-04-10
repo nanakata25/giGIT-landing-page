@@ -8,70 +8,111 @@
 #include "Editor.h"
 #include "cursor.h"
 
+char nammaFileAktif[100];
+
 void render(){
-    
-}
-void editFile(){
-    int k;
-    char c;
+    char buffer[65536] = "";  
+    char temp[256];
 
-    printf("== TEXT EDITOR ==\n");
+    strcat(buffer, "\033[H\033[J"); 
+    strcat(buffer, "============== TEXT EDITOR ==============\n");
+    strcat(buffer, "Ctrl+N: New | Ctrl+O: Open | Ctrl+S: Save\n");
+    strcat(buffer, "Arrow: Move | Enter 	   | Backspace\n");
+    strcat(buffer, "Ctrl+Q / ESC: Exit\n");
+    strcat(buffer, "=========================================\n\n");
 
-    while (jumlahBaris < MAX_BARIS) {
-        k = 0;
-
-        while (k < MAX_KOLOM - 1){
-            c  = getch();
-
-            if (c == 19) {
-                buffer2D[jumlahBaris][k] = '\0';
-                saveFile();
-                printf("\n")
-            }
+    for (int i = 0; i < editor.totalBaris; i++) {
+        snprintf(temp, sizeof(temp), "%s\n", editor.isiTeks[i]);
+        if (strlen(buffer) + strlen(temp) < sizeof(buffer) - 1) {
+            strcat(buffer, temp);
         }
-        {
-            /* code */
-        }
-        
     }
+
+    fputs(buffer, stdout); 
+    fflush(stdout);
+
+    gotoxy(editor.kursorX, editor.kursorY + 6);
+
+    fflush(stdout);
 }
+
+void editFile(){
+    editor.totalBaris = 1;
+    editor.kursorX = 0;
+    editor.kursorY = 0;
+    for (int i = 0; i < MAKS_BARIS; i++) {
+        editor.isiTeks[i][0] = '\0';
+         editor.isWrap[i] = 0;   
+    }
+     system("cls");
+}
+
 void newFile(){
-    int k;
+    editor.totalBaris = 1;
+    editor.kursorX = 0;
+    editor.kursorY = 0;
+    editor.isiTeks[0][0] = '\0';
     
-    printf("\n=== New File ===\n");
+    for (int i = 0; i < MAKS_BARIS; i++) {
+    editor.isWrap[i] = 0;
+    }
 
-    char text[100][100];
-
-    printf("Masukkan Teks:");
-    getchar();
-    fgets(text, sizeof(text),stdin);
-
-    printf("\n File baru telah dibuat\n");
+	namaFileAktif[0] = '\0';
 }
 
 void openFile(){
     FILE *fp;
-    char namafile[100];
-    char baca;
+    char nama[100];
 
-    printf("\n=== Open File ===\n");
-    printf("Masukkan Nama File:");
-    scanf("%s", namafile);
+    printf("\nBuka File: ");
+	fgets(nama, sizeof(nama), stdin);
+	nama[strcspn(nama, "\n")] = '\0';
 
-    fp = fopen(namafile,"r");
-
-    if (fp == NULL){
-        printf("File Tidak Ada!!\n");
+    fp = fopen(nama, "r");
+    if (fp == NULL) {
+        printf("ERROR File tidak ditemukan!\n");
         return;
     }
-    
-    
+    for (int i = 0; i < MAKS_BARIS; i++) {
+    editor.isWrap[i] = 0;
+}
 
-   
+    strcpy(namaFileAktif, nama);
+    editor.totalBaris = 0;
+
+    while (editor.totalBaris < MAKS_BARIS &&
+           fgets(editor.isiTeks[editor.totalBaris], MAKS_KOLOM, fp)) {
+
+        editor.isiTeks[editor.totalBaris]
+		[strcspn(editor.isiTeks[editor.totalBaris], "\n")] = '\0';
+        editor.totalBaris++;
+    }
+
     fclose(fp);
     
+    if (editor.totalBaris == 0) {
+    editor.totalBaris = 1;
+    editor.isiTeks[0][0] = '\0';
+    }
 }
 
 void saveFile(){
-    
+
+    if (strlen(namaFileAktif) == 0) {
+    	printf("\nSimpan file dengan nama:");
+        fgets(namaFileAktif, sizeof(namaFileAktif), stdin);
+		namaFileAktif[strcspn(namaFileAktif, "\n")] = '\0';
+    }
+
+    fp = fopen(namaFileAktif, "w");
+    if (fp == NULL) {
+        printf("[Error] Gagal menyimpan file!\n");
+        return;
+    }
+
+    for (int i = 0; i < editor.totalBaris; i++) {
+    	fprintf(fp, "%s\n", editor.isiTeks[i]);
+	}
+
+    fclose(fp); 
 }
