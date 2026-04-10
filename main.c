@@ -1,53 +1,72 @@
 #include <stdio.h>
-#include "editor.h"
+#include <conio.h>
+#include <windows.h>
+#include <string.h>
+
+#include "Global.h"
+#include "Editor.h"
+#include "cursor.h"
+#include "file.h"
+
+DataEditor editor;
 
 int main() {
+    editFile();
 
-    int pilihan;
+    int ch, ch2;
 
-    do {
-        printf("\n=== TEXT EDITOR ===\n");
-        printf("1. Tampilkan Teks\n");
-        printf("2. Insert Karakter\n");
-        printf("3. Delete Karakter\n");
-        printf("4. Kursor Kiri\n");
-        printf("5. Kursor Kanan\n");
-        printf("6. Keluar\n");
-        printf("Pilih menu: ");
-        scanf("%d", &pilihan);
-        getchar();
+    while (1) {
+        render();
 
-        switch(pilihan) {
+        ch = getch();
 
-            case 1:
-                displayText();
-                break;
+        // =====================
+        // EXIT
+        // =====================
+        if (ch == 27 || ch == 17) break; // ESC atau Ctrl+Q
 
-            case 2:
-                insertCharacter();
-                break;
-
-            case 3:
-                deleteCharacter();
-                break;
-
-            case 4:
-                moveLeft();
-                break;
-
-            case 5:
-                moveRight();
-                break;
-
-            case 6:
-                printf("Program selesai\n");
-                break;
-
-            default:
-                printf("Menu tidak tersedia\n");
+        // =====================
+        // CTRL SHORTCUT
+        // =====================
+        else if (ch == 14) { // Ctrl+N
+            newFile();
+        }
+        else if (ch == 15) { // Ctrl+O
+            openFile();
+        }
+        else if (ch == 19) { // Ctrl+S
+            saveFile();
         }
 
-    } while(pilihan != 6);
+        // =====================
+        // ENTER & BACKSPACE
+        // =====================
+        else if (ch == 13) {
+            tekan_enter();
+        }
+        else if (ch == 8) {
+            hapus_backspace();
+        }
+
+        // =====================
+        // ARROW KEY
+        // =====================
+        else if (ch == 0 || ch == 224) {
+    ch2 = getch();
+    switch (ch2) {
+        case 72: gerakAtas(); break;
+        case 80: gerakBawah(); break;
+        case 75: gerakKiri(); break;
+        case 77: gerakKanan(); break;
+    }
+}
+        // =====================
+        // INPUT KARAKTER
+        // =====================
+        else if (ch >= 32 && ch <= 126) {
+            ketik_huruf((char)ch);
+        }
+    }
 
     return 0;
 }
