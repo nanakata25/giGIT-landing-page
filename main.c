@@ -9,6 +9,7 @@
 #include "file.h"
 
 DataEditor editor;
+void editFile();
 
 int main() {
     editFile();

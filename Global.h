@@ -6,6 +6,7 @@
 
 typedef struct {
     char isiTeks[MAKS_BARIS][MAKS_KOLOM];
+    int isWrap[MAKS_BARIS];
     int kursorX;
     int kursorY;
     int totalBaris;

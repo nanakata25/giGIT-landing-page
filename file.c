@@ -8,7 +8,7 @@
 #include "Editor.h"
 #include "cursor.h"
 
-char nammaFileAktif[100];
+char namaFileAktif[100];
 
 void render(){
     char buffer[65536] = "";  
@@ -97,7 +97,7 @@ void openFile(){
 }
 
 void saveFile(){
-
+    FILE *fp;
     if (strlen(namaFileAktif) == 0) {
     	printf("\nSimpan file dengan nama:");
         fgets(namaFileAktif, sizeof(namaFileAktif), stdin);

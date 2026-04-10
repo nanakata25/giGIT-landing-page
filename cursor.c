@@ -4,6 +4,8 @@
 #include "file.h"
 #include <string.h>
 #include <stdio.h>
+#include <windows.h>
+#include <conio.h>
 
 void gotoxy(int x, int y) {
     COORD c;
