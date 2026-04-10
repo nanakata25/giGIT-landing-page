@@ -7,40 +7,41 @@ static void wrap_baris (int y, char c);
 
 void ketik_huruf(char c) {
     int x = editor.kursorX;
-	int y = editor.kursorY;
+    int y = editor.kursorY;
     int len = strlen(editor.isiTeks[y]);
 
-	if (x > len) x = len;
+    if (x > len) x = len;
+
+    // MASIH MUAT
     if (len < MAKS_KOLOM - 1) {
         for (int i = len; i >= x; i--) {
             editor.isiTeks[y][i + 1] = editor.isiTeks[y][i];
-    }
-    
-    editor.isiTeks[y][x] = c;
-    editor.kursorX++;
-}
-	//kalo penuh 
-else {
-    if (x < len) {
-        char last = editor.isiTeks[y][len - 1];
-        for (int i = len -1; i >= x; i--) {
-            editor.isiTeks[y][i] = editor.isiTeks[y][i - 1];
         }
-
         editor.isiTeks[y][x] = c;
-        editor.isiTeks [y][len] = '\0';
-        wrap_baris (y, last);
+        editor.kursorX++;
     }
+    // PENUH
     else {
-        wrap_baris(y, c);
-    }
-
-    editor.kursorY++;
-    editor.kursorX = strlen(editor.isiTeks[editor.kursorY]);
-
+        if (x < len) {
+            char last = editor.isiTeks[y][len - 1];
+            // geser kanan dari len-1 turun ke x
+            for (int i = len - 1; i > x; i--) {
+                editor.isiTeks[y][i] = editor.isiTeks[y][i - 1];
+            }
+            editor.isiTeks[y][x] = c;
+            editor.isiTeks[y][len] = '\0';
+            wrap_baris(y, last);
+            // kursor tetap di baris ini, maju 1
+            editor.kursorX++;
+        }
+        else {
+            // kursor di ujung, char baru carry ke baris bawah
+            wrap_baris(y, c);
+            editor.kursorY++;
+            editor.kursorX = 1;
+        }
     }
 }
-
 void hapus_backspace() {
     int y = editor.kursorY;
     int x = editor.kursorX;
