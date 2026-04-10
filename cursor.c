@@ -5,6 +5,13 @@
 #include <string.h>
 #include <stdio.h>
 
+void gotoxy(int x, int y) {
+    COORD c;
+    c.X = x;
+    c.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
+}
+
 // GERAK ATAS
 void gerakAtas() {
     if (editor.kursorY > 0) {
