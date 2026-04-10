@@ -8,7 +8,9 @@
 #include "Editor.h"
 #include "cursor.h"
 
-
+void render(){
+    
+}
 void editFile(){
     int k;
     char c;
