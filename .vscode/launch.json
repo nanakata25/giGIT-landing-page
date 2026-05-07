@@ -9,7 +9,8 @@
       "stopAtEntry": false,
       "externalConsole": true,
       "cwd": "c:/Users/HP/OneDrive - Politeknik Negeri Bandung/Semester 2/Proyek 2/team-landing-page",
-      "program": "${workspaceFolder}/main.exe""MIMode": "gdb",
+      "program": "c:/Users/HP/OneDrive - Politeknik Negeri Bandung/Semester 2/Proyek 2/team-landing-page/build/Debug/outDebug",
+      "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
         {

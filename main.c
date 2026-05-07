@@ -9,10 +9,9 @@
 #include "file.h"
 
 DataEditor editor;
-void editFile();
 
 int main() {
-    editFile();
+    newFile(); //ini untuk inisialisasi awal
 
     int ch, ch2;
 
@@ -60,7 +59,7 @@ int main() {
         case 75: gerakKiri(); break;
         case 77: gerakKanan(); break;
     }
-}
+        }
         // =====================
         // INPUT KARAKTER
         // =====================

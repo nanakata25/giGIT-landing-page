@@ -5,16 +5,15 @@
 
 
 /* ===== HELPER SHIFT ===== */
-
 static void shift_kanan(int y, int x, int batas) {
-    for (int i = batas; i >= x; i--) {
+    for ( int i = batas; i >= x; i--) {
         editor.isiTeks[y][i + 1] = editor.isiTeks[y][i];
     }
 }
 
 static void shift_kiri(int y, int x) {
     int len = strlen(editor.isiTeks[y]);
-    for (int i = x; i < len; i++) {
+    for ( int i = x; i < len; i++) {
         editor.isiTeks[y][i] = editor.isiTeks[y][i + 1];
     }
 }
@@ -76,7 +75,7 @@ void hapus_backspace() {
 
             strcat(editor.isiTeks[y - 1], editor.isiTeks[y]);
 
-            for (int i = y; i < editor.totalBaris - 1; i++) {
+            for ( int i = y; i < editor.totalBaris - 1; i++) {
                 strcpy(editor.isiTeks[i], editor.isiTeks[i + 1]);
                 editor.isWrap[i] = editor.isWrap[i + 1];
             }
@@ -112,7 +111,7 @@ void hapus_backspace() {
             }
 
             if (strlen(editor.isiTeks[y + 1]) == 0) {
-                for (int i = y + 1; i < editor.totalBaris - 1; i++) {
+                for ( int i = y + 1; i < editor.totalBaris - 1; i++) {
                     strcpy(editor.isiTeks[i], editor.isiTeks[i + 1]);
                     editor.isWrap[i] = editor.isWrap[i + 1];
                 }
@@ -132,7 +131,7 @@ void tekan_enter() {
     int len = strlen(editor.isiTeks[y]);
     if (x > len) return;
 
-    for (int i = editor.totalBaris; i > y; i--) {
+    for ( int i = editor.totalBaris; i > y; i--) {
         strcpy(editor.isiTeks[i], editor.isiTeks[i - 1]);
     }
 
@@ -153,7 +152,7 @@ void wrap_baris(int y, char c) {
         if (y + 1 >= MAKS_BARIS) break;
 
         if (!sudah_insert && y + 1 < editor.totalBaris && editor.isWrap[y + 1] == 0) {
-            for (int i = editor.totalBaris; i > y + 1; i--) {
+            for ( int i = editor.totalBaris; i > y + 1; i--) {
                 strcpy(editor.isiTeks[i], editor.isiTeks[i - 1]);
                 editor.isWrap[i] = editor.isWrap[i - 1];
             }

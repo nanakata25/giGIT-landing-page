@@ -2,9 +2,11 @@
 #define FILE_H
 
 void render();
-void editfile();
+void editFile();
 void newFile();
 void openFile();
 void saveFile();
 
 #endif
+
+
