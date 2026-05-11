@@ -3,7 +3,27 @@
 #include "editor.h"
 #include "Global.h"
 
-
+Baris *buatNode(){
+    //1. alokasi memori untuk node baris
+    Baris *node = malloc(sizeof(Baris));
+    if (node == NULL){
+        return 0;
+    }
+    //2. alokasi  memori  untuk char kolom
+    node->isiTeks = malloc(kapasitas_awal * sizeof(char));
+    if (node->isiTeks == NULL){
+        free(node);
+        return 0;
+    }
+    //3. isi nilai awal
+    node->isiTeks[0] = '\0';
+    node->panjang = 0;
+    node->kapasitas = kapasitas_awal;
+    node->isWrap = 0;
+    node->prev = NULL;
+    node->next = NULL;
+    return node;
+}
 /* ===== HELPER SHIFT ===== */
 static void shift_kanan(int y, int x, int batas) {
     for ( int i = batas; i >= x; i--) {
@@ -61,7 +81,8 @@ void hapus_backspace() {
     int x = editor.kursorX;
 
     if (x == 0) {
-        if (y == 0) return;
+        if (y == 0) 
+        return;
 
         int len_atas = strlen(editor.isiTeks[y - 1]);
         int len_sekarang = strlen(editor.isiTeks[y]);

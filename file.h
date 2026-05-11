@@ -8,5 +8,3 @@ void openFile();
 void saveFile();
 
 #endif
-
-
