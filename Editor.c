@@ -42,33 +42,48 @@ static void shift_kiri(int y, int x) {
 /* ===== INTI EDITOR ===== */
 
 void ketik_huruf(char c) {
-    int x = editor.kursorX;
-    int y = editor.kursorY;
-    int len = strlen(editor.isiTeks[y]);
 
-    if (x > len) x = len;
+    int x = editor.kursorX;
+
+    Baris *baris = editor.kursorBaris;
+
+    int len = strlen(baris->isiTeks);
+
+    if (x > len)
+        x = len;
 
     // MASIH MUAT
     if (len < MAKS_KOLOM - 1) {
-        shift_kanan(y, x, len);
-        editor.isiTeks[y][x] = c;
+
+        shift_kanan(baris, x, len);
+
+        baris->isiTeks[x] = c;
+
         editor.kursorX++;
     }
+
     // PENUH
     else {
+
         if (x < len) {
-            char last = editor.isiTeks[y][len - 1];
 
-            shift_kanan(y, x + 1, len - 1);
+            char last = baris->isiTeks[len - 1];
 
-            editor.isiTeks[y][x] = c;
-            editor.isiTeks[y][len] = '\0';
+            shift_kanan(baris, x + 1, len - 1);
 
-            wrap_baris(y, last);
+            baris->isiTeks[x] = c;
+
+            baris->isiTeks[len] = '\0';
+
+            wrap_baris(baris, last);
+
             editor.kursorX++;
         }
+
         else {
-            wrap_baris(y, c);
+
+            wrap_baris(baris, c);
+
             editor.kursorY++;
             editor.kursorX = 1;
         }
