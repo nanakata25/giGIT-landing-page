@@ -71,50 +71,44 @@ void ketik_huruf(char c) {
 
 
 void hapus_backspace() {
-    int y = editor.kursorY;
+    Baris *barisSaatIni = editor.kursorBaris;
     int x = editor.kursorX;
 
-    if (x == 0) {
-        if (y == 0) 
+    if (barisSaatIni == NULL){
         return;
+    }
+    
+    if (x == 0) {
+        if (barisSaatIni == NULL){
+            return;
+        } 
 
-        int len_atas = strlen(editor.isiTeks[y - 1]);
-        int len_sekarang = strlen(editor.isiTeks[y]);
+        Baris *barisAtas = barisSaatIni->prev;
+        int panjangBarisAtas = barisAtas->panjang;
+        int panjangBarisSekarang = barisSaatIni->panjang;
+        int totalPanjang = panjangBarisAtas + panjangBarisSekarang;
+        
+        strcat(barisAtas->isiTeks, barisSaatIni->isiTeks);
+        barisAtas->panjang = totalPanjang;
 
-        if (editor.isWrap[y] == 0) {
-            if (len_atas + len_sekarang >= MAKS_KOLOM - 1) {
-                editor.kursorY--;
-                editor.kursorX = len_atas;
-                return;
-            }
+        editor.kursorBaris = barisAtas;
+        editor.kursorX = panjangBarisAtas;
+        editor.kursorY--;
 
-            strcat(editor.isiTeks[y - 1], editor.isiTeks[y]);
-
-            for ( int i = y; i < editor.totalBaris - 1; i++) {
-                strcpy(editor.isiTeks[i], editor.isiTeks[i + 1]);
-                editor.isWrap[i] = editor.isWrap[i + 1];
-            }
-
-            editor.totalBaris--;
-
-            editor.kursorY--;
-            editor.kursorX = len_atas;
-        }
-        else {
-            editor.kursorY--;
-            editor.kursorX = len_atas;
-        }
+        //hapus_node(barisSaatIni)
+        
     }
 
     // ===== TENGAH BARIS =====
     else {
-        int len = strlen(editor.isiTeks[y]);
+        int len = barisSaatIni->panjang;
         if (x > len) return;
 
-        shift_kiri(y, x - 1);
+        shift_kiri(barisSaatIni, x - 1);
         editor.kursorX--;
 
-        if (y + 1 < editor.totalBaris && editor.isWrap[y + 1] == 1) {
+
+        /*if (y + 1 < editor.totalBaris && editor.isWrap[y + 1] == 1) {
             int len_sekarang = strlen(editor.isiTeks[y]);
             int len_bawah = strlen(editor.isiTeks[y + 1]);
 
@@ -132,7 +126,7 @@ void hapus_backspace() {
                 }
                 editor.totalBaris--;
             }
-        }
+        }*/
     }
 }
 
