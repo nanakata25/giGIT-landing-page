@@ -42,36 +42,30 @@ static void shift_kiri(int y, int x) {
 /* ===== INTI EDITOR ===== */
 
 void ketik_huruf(char c) {
+
+    Baris *baris = editor.kursorBaris;
+
     int x = editor.kursorX;
-    int y = editor.kursorY;
-    int len = strlen(editor.isiTeks[y]);
+    int len = baris->panjang;
 
-    if (x > len) x = len;
+    if (x > len)
+        x = len;
 
-    // MASIH MUAT
-    if (len < MAKS_KOLOM - 1) {
-        shift_kanan(y, x, len);
-        editor.isiTeks[y][x] = c;
+    if (len < baris->kapasitas - 1) {
+
+        // geser karakter ke kanan
+        for (int i = len; i >= x; i--) {
+            baris->isiTeks[i + 1] = baris->isiTeks[i];
+        }
+
+        // insert karakter
+        baris->isiTeks[x] = c;
+
+        // update panjang
+        baris->panjang++;
+
+        // geser kursor
         editor.kursorX++;
-    }
-    // PENUH
-    else {
-        if (x < len) {
-            char last = editor.isiTeks[y][len - 1];
-
-            shift_kanan(y, x + 1, len - 1);
-
-            editor.isiTeks[y][x] = c;
-            editor.isiTeks[y][len] = '\0';
-
-            wrap_baris(y, last);
-            editor.kursorX++;
-        }
-        else {
-            wrap_baris(y, c);
-            editor.kursorY++;
-            editor.kursorX = 1;
-        }
     }
 }
 

@@ -4,7 +4,6 @@
 #include "Global.h"
 
 Baris *buatNode();
-//void wrap_baris (int y, char c);
 // Insert karakter
 void ketik_huruf(char huruf_baru);
 

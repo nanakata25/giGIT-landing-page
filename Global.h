@@ -1,3 +1,4 @@
+
 #ifndef GLOBAL_H
 #define GLOBAL_H
 #define MAKS_KOLOM 100
@@ -21,5 +22,3 @@ typedef struct {
 } DataEditor;
 
 extern DataEditor editor;
-
-#endif
