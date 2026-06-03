@@ -19,7 +19,7 @@ Baris *buatNode(){
     node->isiTeks[0] = '\0';
     node->panjang = 0;
     node->kapasitas = kapasitas_awal;
-    node->isWrap = 0;
+    //node->isWrap = 0;
     node->prev = NULL;
     node->next = NULL;
     return node;
