@@ -1,13 +1,3 @@
-#include "Global.h"
-#include "Editor.h"
-#include "cursor.h"
-#include "file.h"
-#include <string.h>
-#include <stdio.h>
-
-Oke, ini versi lengkap file cursor.c yang udah konsisten semua pakai linked list. Saya susun rapi dari atas ke bawah:
-
-#include "Global.h"
 #include "Editor.h"
 #include "cursor.h"
 #include "file.h"
@@ -16,8 +6,7 @@ Oke, ini versi lengkap file cursor.c yang udah konsisten semua pakai linked list
 #include <windows.h>   // buat COORD, SetConsoleCursorPosition, dll
 
 
-// ===== Fungsi buat geser kursor di layar console =====
-// fungsi ini cuma ngurusin tampilan, nggak nyentuh data linked list sama sekali
+// Fungsi buat geser kursor di layar console
 void gotoxy(int x, int y) {
     COORD c;
     c.X = x;
@@ -26,10 +15,9 @@ void gotoxy(int x, int y) {
 }
 
 
-// ===== Fungsi untuk menggerakkan kursor ke ATAS =====
+//Fungsi untuk menggerakkan kursor ke ATAS 
 void gerakAtas() {
     // cek dulu, kalau kursorBaris belum ada atau udah di baris paling atas (head),
-    // ya udah nggak usah ngapa-ngapain (prev-nya NULL berarti dia head)
     if (editor.kursorBaris != NULL && editor.kursorBaris->prev != NULL) {
         // pindahin pointer kursor ke baris sebelumnya
         editor.kursorBaris = editor.kursorBaris->prev;
@@ -48,7 +36,7 @@ void gerakAtas() {
 
 // ===== Fungsi untuk menggerakkan kursor ke BAWAH =====
 void gerakBawah() {
-    // kalau udah di baris paling bawah (tail), next-nya NULL, ya udah skip
+    // kalau udah di baris paling bawah (tail), next-nya NULL, ya udah biarin we
     if (editor.kursorBaris != NULL && editor.kursorBaris->next != NULL) {
         // pindahin pointer kursor ke baris setelahnya
         editor.kursorBaris = editor.kursorBaris->next;
@@ -64,9 +52,9 @@ void gerakBawah() {
 }
 
 
-// ===== Fungsi untuk menggerakkan kursor ke KIRI =====
+// Fungsi untuk menggerakkan kursor ke KIRI
 void gerakKiri() {
-    // jaga-jaga kalau dokumen masih kosong banget (belum ada node)
+    // jaga-jaga kalau dokumen masih kosong pisan (belum ada node)
     if (editor.kursorBaris == NULL) return;
 
     if (editor.kursorX > 0) {
@@ -82,18 +70,18 @@ void gerakKiri() {
         editor.kursorY--;
         editor.kursorX = editor.kursorBaris->panjang;
     }
-    // kalau udah di pojok kiri atas (kolom 0 dan nggak ada prev), ya diam aja
+    // kalau udah di pojok kiri atas (kolom 0 dan nggak ada prev), ya diem aja
 }
 
 
-// ===== Fungsi untuk menggerakkan kursor ke KANAN =====
+//  Fungsi untuk menggerakkan kursor ke KANAN 
 void gerakKanan() {
-    // jaga-jaga kalau dokumen masih kosong banget (belum ada node)
+    // jaga-jaga kalau dokumen masih kosong pisan (belum ada node)
     if (editor.kursorBaris == NULL) return;
 
     if (editor.kursorX < editor.kursorBaris->panjang) {
         // masih ada karakter di sebelah kanan, geser kolomnya
-        // cabang ini juga sama kayak versi statis, cuma sumber panjangnya beda
+        // ini teh sama kayak versi statis, cuma sumber panjangnya doang yang beda
         editor.kursorX++;
     }
     else if (editor.kursorBaris->next != NULL) {
@@ -103,5 +91,5 @@ void gerakKanan() {
         editor.kursorY++;
         editor.kursorX = 0;
     }
-    // kalau udah di pojok kanan bawah, ya diam aja
+    // kalau udah di pojok kanan bawah, diem wkwk
 }
