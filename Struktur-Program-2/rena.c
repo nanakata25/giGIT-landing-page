@@ -3,7 +3,9 @@
 #include <windows.h>
 #include <string.h>
 
-#include rena.h
+#include "rena.h"
+#include "Global.h"
+
 
 /* ===== HELPER SHIFT ===== */
 void shift_kanan(Baris *baris, int x, int batas) {
@@ -25,11 +27,11 @@ void tekan_enter() {
     Baris *baris = editor.kursorBaris;
     int x = editor.kursorX;
 
-    // 1. ambil teks sesudah kursor
+    //  ambil teks sesudah kursor
     char *sisa       = baris->isiTeks + x;
     int panjang_sisa = baris->panjang - x;
 
-    // 2. buat node baru
+    //  buat node baru
     Baris *baru = buatNode();
     if (baru == NULL) return;
 
@@ -49,7 +51,7 @@ void tekan_enter() {
     strcpy(baru->isiTeks, sisa);
     baru->panjang = panjang_sisa;
 
-    // 3. potong baris sekarang di posisi x
+    //  potong baris sekarang di posisi x
     baris->isiTeks[x] = '\0';
     baris->panjang    = x;
 
@@ -62,17 +64,28 @@ void tekan_enter() {
         editor.tail = baru;
     baris->next = baru;
 
-    // 5. pindah kursor ke node baru
+    //  pindah kursor ke node baru
     editor.kursorBaris = baru;
     editor.kursorX     = 0;
     editor.kursorY++;
 
-    // 6. update totalBaris
+    //  update totalBaris
     editor.totalBaris++;
 }
 
 
 /* ===== KURSOR BAWAH ===== */
+void gerakBawah(DataEditor *ed){
+	//ada baris ga bawhnya
+	if (ed->kursorBaris->next == NULL){
+		return;
+	}
+	ed->kursorBaris = ed->kursorBaris->next;
+	
+	if(ed->kursorX > ed->kursorBaris->panjang){
+		ed->kursorX = ed->kursorBaris->panjang;
+	}
+	
+}
 
 /* ===== OPEN FILE ===== */
-

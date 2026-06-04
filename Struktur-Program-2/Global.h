@@ -1,10 +1,9 @@
-
 #ifndef GLOBAL_H
 #define GLOBAL_H
-#define MAKS_KOLOM 100
+#define KAPASITAS_AWAL 16
 
 typedef struct Baris{
-    char isiTeks[MAKS_KOLOM];          //pointer ke string untuk isi teks baris
+    char *isiTeks;          //pointer ke string untuk isi teks baris
     int panjang;            //jumlah char saat ini
     int kapasitas;          // kapasitas buffer yang dialokasikan
     //int isWrap;             // untuk menunjukkan true/false (apa baris ini hasil wrap atau tidak)
@@ -22,3 +21,5 @@ typedef struct {
 } DataEditor;
 
 extern DataEditor editor;
+
+#endif
