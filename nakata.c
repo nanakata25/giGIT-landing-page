@@ -32,46 +32,28 @@ void gerakAtas() {
 }
 
 void render() {
-    // pindahin kursor visual ke pojok kiri atas, JANGAN clear screen
+    // balikin kursor ke pojok kiri atas (TANPA clear screen, biar nggak kedip)
     gotoxy(0, 0);
 
-    // jalan dari head sampai ujung
-    Baris *baris = editor.head;
-    int barisKe = 0;
+    Baris *b = editor.head;
+    int y = 0;
 
-    while (baris != NULL) {
-        // pindah ke baris ke-`barisKe` di layar
-        gotoxy(0, barisKe);
-
-        // cetak isi baris ini
-        printf("%s", baris->isiTeks);
-
-        // tambahin spasi sampe ujung kolom biar karakter lama (dari render sebelumnya)
-        // yang masih nyangkut di kanan ke-timpa
-        int sisa = MAKS_KOLOM - baris->panjang;
-        for (int i = 0; i < sisa; i++) {
-            printf(" ");
-        }
-
-        // lanjut ke baris berikutnya
-        baris = baris->next;
-        barisKe++;
+    // cetak tiap baris, di-pad sampai 80 kolom biar nimpa sisa karakter lama
+    while (b != NULL) {
+        printf("%-80s\n", b->isiTeks);   // %-80s = left align, lebar 80
+        b = b->next;
+        y++;
     }
 
-    // bersihin baris-baris lama di bawah (kalau habis ngehapus baris,
-    // kan jumlah totalBaris berkurang, sisa-sisa di bawah harus dihapus)
-    // di sini kita bersihin sampai ke baris ke-totalBaris yang lama,
-    // simpelnya cetak spasi sampai beberapa baris ke bawah
-    for (int i = barisKe; i < editor.totalBaris + 5; i++) {
-        gotoxy(0, i);
-        for (int j = 0; j < MAKS_KOLOM; j++) {
-            printf(" ");
-        }
+    // bersihin baris-baris sisa di bawah (kalau habis hapus baris)
+    for (int i = y; i < 25; i++) {
+        printf("%-80s\n", "");
     }
 
-    // terakhir, balikin kursor visual ke posisi yang bener
+    // balikin kursor visual ke posisi yang bener
     gotoxy(editor.kursorX, editor.kursorY);
 }
+
 
 // Fungsi untuk menggerakkan kursor ke KIRI
 void gerakKiri() {
