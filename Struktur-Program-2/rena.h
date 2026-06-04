@@ -6,7 +6,7 @@
 void shift_kanan(Baris *baris, int x, int batas);
 void shift_kiri(Baris *baris, int x);
 void tekan_enter();
-void gerakBawah(DataEditor *ed);
-void openFile(DataEditor* ed, char* namaFile);
+void gerakBawah();
+void openFile(char* namaFile);
 
 #endif
