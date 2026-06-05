@@ -38,7 +38,7 @@ Setiap node merepresentasikan satu baris teks dan saling terhubung menggunakan p
 Isi teks pada setiap node disimpan menggunakan array karakter dinamis (char *).
 Representasi:
 
-Node
+Node Baris
  ├── isiTeks
  ├── panjang
  ├── kapasitas
@@ -59,13 +59,13 @@ Kapasitas penyimpanan dapat diperbesar menggunakan realloc() ketika jumlah karak
 Compile:
 
 ```bash
-gcc *.c -o editor
+gcc main.c rena.c fahmi.c nakata.c -o main.exe
 ```
 
 Run:
 
 ```bash
-./editor
+.\main.exe
 ```
 
 

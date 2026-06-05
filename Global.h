@@ -1,6 +1,6 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
-#define KAPASITAS_AWAL 8
+#define KapasitasAwal 8
 #define MaksPanjangBaris 100
 
 

@@ -4,8 +4,9 @@
 
 #include "Global.h"
 #include "fahmi.h"
+#include "rena.h"
 
-
+char namaFile[100];
 /*HAPUS BACKSPACE*/
 void hapus_backspace() {
     Baris *baris = editor.kursorBaris;
