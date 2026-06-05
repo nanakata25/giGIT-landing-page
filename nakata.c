@@ -1,8 +1,12 @@
-#include "nakata.h"
-#include <string.h>
 #include <stdio.h>
-#include <windows.h>   // buat COORD, SetConsoleCursorPosition, dll
-
+#include <stdlib.h>
+#include <string.h>
+#include <windows.h>
+ 
+#include "Global.h"
+#include "nakata.h" 
+#include "fahmi.h"
+#include "rena.h" 
 
 // Fungsi buat geser kursor di layar console
 void gotoxy(int x, int y) {
@@ -15,50 +19,15 @@ void gotoxy(int x, int y) {
 
 //Fungsi untuk menggerakkan kursor ke ATAS 
 void gerakAtas() {
-    // cek dulu, kalau kursorBaris belum ada atau udah di baris paling atas (head),
-    if (editor.kursorBaris != NULL && editor.kursorBaris->prev != NULL) {
-        // pindahin pointer kursor ke baris sebelumnya
-        editor.kursorBaris = editor.kursorBaris->prev;
+    if (editor.kursorBaris != NULL && editor.kursorBaris->prev != NULL) { // cek dulu, kalau kursorBaris belum ada atau udah di baris paling atas (head),
+        editor.kursorBaris = editor.kursorBaris->prev;  // pindahin pointer kursor ke baris sebelumnya
 
-        // update kursorY biar tampilannya ikut naik 1 baris
-        editor.kursorY--;
+        editor.kursorY--;         // update kursorY biar tampilannya ikut naik 1 baris
 
-        // panjang baris baru bisa beda dari baris sebelumnya,
-        // sesuaikan kursorX biar nggak nunjuk ke posisi di luar baris
-        if (editor.kursorX > editor.kursorBaris->panjang) {
-            editor.kursorX = editor.kursorBaris->panjang;
+        if (editor.kursorX > editor.kursorBaris->panjang) { // panjang baris baru bisa beda dari baris sebelumnya,
+            editor.kursorX = editor.kursorBaris->panjang;  // sesuaikan kursorX biar nggak nunjuk ke posisi di luar baris
         }
     }
-}
-
-void render(){
-    // Bersihkan layar dan cetak Menu Atas (Header)
-    // \033[H\033[J adalah kode khusus untuk membersihkan layar terminal
-    printf("\033[H\033[J"); 
-    printf("============== TEXT EDITOR ==============\n");
-    printf("Ctrl+N: New | Ctrl+O: Open | Ctrl+S: Save\n");
-    printf("Arrow: Move | Enter 	   | Backspace\n");
-    printf("Ctrl+Q / ESC: Exit\n");
-    printf("=========================================\n\n");
-
-    // Cetak seluruh isi teks baris demi baris
-    Baris *sekarang = editor.head; 
-
-    // Lakukan perulangan selama variabel 'sekarang' tidak kosong (NULL)
-    while (sekarang != NULL) {
-        // DI SINI DIA MENUNJUKNYA:
-        // 'sekarang->isiTeks' menunjuk ke array char di dalam struct Baris yang aktif saat ini
-        printf("%s\n", sekarang->isiTeks);
-
-        // Pindah ke baris berikutnya mengikuti rantai pointer
-        sekarang = sekarang->next; 
-    }
-
-    // Pindahkan posisi kursor (ditambah 6 baris karena terpotong menu atas)
-    gotoxy(editor.kursorX, editor.kursorY + 6);
-
-    // Paksa terminal untuk langsung menampilkan semua perubahan
-    fflush(stdout);
 }
 
 // Fungsi untuk menggerakkan kursor ke KIRI
@@ -104,30 +73,73 @@ void gerakKanan() {
 }
 
 
-void ketik_huruf(char c) {
-
+void ketik_huruf(char c){
+    int i;
     Baris *baris = editor.kursorBaris;
-
     int x = editor.kursorX;
     int len = baris->panjang;
+ 
+   if (len >= MaksPanjangBaris){
+    tekan_enter();
 
-    if (x > len)
-        x = len;
+    baris = editor.kursorBaris;
+    x = editor.kursorX;
+    len = baris->panjang;
+}
 
-    if (len < baris->kapasitas - 1) {
+    if (len >= baris->kapasitas - 1) {
+    	if (!reallocBaris(baris, baris->kapasitas * 2)){
+			return;
+		}
+    }
+ 
+    for (i = len; i >= x; i--)
+        baris->isiTeks[i + 1] = baris->isiTeks[i];
+ 
+    baris->isiTeks[x] = c;
+    baris->panjang++;
+    editor.kursorX++;
+}
 
-        // geser karakter ke kanan
-        for (int i = len; i >= x; i--) {
-            baris->isiTeks[i + 1] = baris->isiTeks[i];
+
+//render tampilan
+void render(){
+
+    printf("\033[H\033[J");
+
+    printf("============== TEXT EDITOR ==============\n");
+    printf("Ctrl+N: New | Ctrl+O: Open | Ctrl+S: Save\n");
+    printf("Arrow: Move | Enter        | Backspace\n");
+    printf("Ctrl+Q / ESC: Exit\n");
+    printf("=========================================\n\n");
+
+    Baris *sekarang = editor.head;
+
+    int y = 0;
+
+    while(sekarang != NULL){
+
+        printf("%s\n", sekarang->isiTeks);
+
+        // Cari posisi Y kursor berdasarkan node aktif
+        if(sekarang == editor.kursorBaris){
+            editor.kursorY = y;
         }
 
-        // insert karakter
-        baris->isiTeks[x] = c;
-
-        // update panjang
-        baris->panjang++;
-
-        // geser kursor
-        editor.kursorX++;
+        sekarang = sekarang->next;
+        y++;
     }
+
+    // Batasi X agar tidak melebihi panjang teks
+    if(editor.kursorX > editor.kursorBaris->panjang){
+        editor.kursorX = editor.kursorBaris->panjang;
+    }
+
+    // Header memakai 6 baris
+    gotoxy(
+        editor.kursorX,
+        editor.kursorY + 6
+    );
+
+    fflush(stdout);
 }
