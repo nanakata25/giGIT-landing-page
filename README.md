@@ -29,7 +29,6 @@ Proyek ini merupakan pembuatan aplikasi text editor sederhana berbasis CLI yang 
 ## Struktur Data
 Aplikasi dibuat menggunakan struktur data Double Linked List dan Dynamic Character Array 
 Doubly Linked List digunakan sebagai struktur utama penyimpanan data teks.
-
 Representasi:
 
 [Baris 1] ⇄ [Baris 2] ⇄ [Baris 3] ⇄ ...
@@ -37,7 +36,6 @@ Representasi:
 Setiap node merepresentasikan satu baris teks dan saling terhubung menggunakan pointer next dan prev.
 
 Isi teks pada setiap node disimpan menggunakan array karakter dinamis (char *).
-
 Representasi:
 
 Node
@@ -70,17 +68,4 @@ Run:
 ./editor
 ```
 
-## Struktur File
-
-```text
-.
-├── main.c
-├── global.h
-├── nakata.c
-├── fahmi.c
-├── rena.c
-└── README.md
-```
-
-## Catatan Struktur File 
 
