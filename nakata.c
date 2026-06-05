@@ -42,8 +42,16 @@ void render(){
     printf("=========================================\n\n");
 
     // Cetak seluruh isi teks baris demi baris
-    for (int i = 0; i < editor.totalBaris; i++) {
-        printf("%s\n", editor.isiTeks[i]);
+    Baris *sekarang = editor.head; 
+
+    // Lakukan perulangan selama variabel 'sekarang' tidak kosong (NULL)
+    while (sekarang != NULL) {
+        // DI SINI DIA MENUNJUKNYA:
+        // 'sekarang->isiTeks' menunjuk ke array char di dalam struct Baris yang aktif saat ini
+        printf("%s\n", sekarang->isiTeks);
+
+        // Pindah ke baris berikutnya mengikuti rantai pointer
+        sekarang = sekarang->next; 
     }
 
     // Pindahkan posisi kursor (ditambah 6 baris karena terpotong menu atas)
