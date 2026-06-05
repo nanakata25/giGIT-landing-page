@@ -4,9 +4,6 @@
 #include <string.h>
 
 #include "Global.h"
-#include "Editor.h"
-#include "cursor.h"
-#include "file.h"
 
 DataEditor editor;
 
@@ -23,7 +20,7 @@ int main() {
         // =====================
         // EXIT
         // =====================
-        if (ch == 27 || ch == 17) break; // ESC atau Ctrl+Q
+        if (ch == 27 ) break; // ESC  
 
         // =====================
         // CTRL SHORTCUT
