@@ -39,11 +39,11 @@ Isi teks pada setiap node disimpan menggunakan array karakter dinamis (char *).
 Representasi:
 
 Node Baris
- ├── isiTeks
- ├── panjang
- ├── kapasitas
- ├── prev
- └── next
+├── isiTeks
+├── panjang
+├── kapasitas
+├── prev
+└── next
 
 Kapasitas penyimpanan dapat diperbesar menggunakan realloc() ketika jumlah karakter melebihi kapasitas yang tersedia.
 
