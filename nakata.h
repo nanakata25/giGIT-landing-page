@@ -7,5 +7,5 @@ void gerakBawah();
 void gerakKiri();
 void gerakKanan();
 void render();
-void ketik_huruf();
+void ketik_huruf(char c);
 #endif
