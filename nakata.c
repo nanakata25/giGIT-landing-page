@@ -31,29 +31,27 @@ void gerakAtas() {
     }
 }
 
-void render() {
-    // balikin kursor ke pojok kiri atas (TANPA clear screen, biar nggak kedip)
-    gotoxy(0, 0);
+void render(){
+    // Bersihkan layar dan cetak Menu Atas (Header)
+    // \033[H\033[J adalah kode khusus untuk membersihkan layar terminal
+    printf("\033[H\033[J"); 
+    printf("============== TEXT EDITOR ==============\n");
+    printf("Ctrl+N: New | Ctrl+O: Open | Ctrl+S: Save\n");
+    printf("Arrow: Move | Enter 	   | Backspace\n");
+    printf("Ctrl+Q / ESC: Exit\n");
+    printf("=========================================\n\n");
 
-    Baris *b = editor.head;
-    int y = 0;
-
-    // cetak tiap baris, di-pad sampai 80 kolom biar nimpa sisa karakter lama
-    while (b != NULL) {
-        printf("%-80s\n", b->isiTeks);   // %-80s = left align, lebar 80
-        b = b->next;
-        y++;
+    // Cetak seluruh isi teks baris demi baris
+    for (int i = 0; i < editor.totalBaris; i++) {
+        printf("%s\n", editor.isiTeks[i]);
     }
 
-    // bersihin baris-baris sisa di bawah (kalau habis hapus baris)
-    for (int i = y; i < 25; i++) {
-        printf("%-80s\n", "");
-    }
+    // Pindahkan posisi kursor (ditambah 6 baris karena terpotong menu atas)
+    gotoxy(editor.kursorX, editor.kursorY + 6);
 
-    // balikin kursor visual ke posisi yang bener
-    gotoxy(editor.kursorX, editor.kursorY);
+    // Paksa terminal untuk langsung menampilkan semua perubahan
+    fflush(stdout);
 }
-
 
 // Fungsi untuk menggerakkan kursor ke KIRI
 void gerakKiri() {
