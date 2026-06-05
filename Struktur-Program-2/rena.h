@@ -5,7 +5,7 @@
  
 int reallocBaris(Baris *baris, int kapasitasBaru);
 void tekan_enter();
-void gerakBawah();          /* FIX #3: tanpa parameter DataEditor* */
+void gerakBawah();          
 void openFile(char *namaFile);
  
 #endif

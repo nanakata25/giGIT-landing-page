@@ -118,10 +118,13 @@ void openFile(char *namaFile) {
         len = strlen(buffer);
 
         baru = buatNode();
-        if (baru == NULL) break;
+        if (baru == NULL){
+            break;
+        }
 
-        if (len + 1 > baru->kapasitas)
+        if (len + 1 > baru->kapasitas){
             reallocBaris(baru, len + 1);
+        }
 
         strcpy(baru->isiTeks, buffer);
         baru->panjang = len;
