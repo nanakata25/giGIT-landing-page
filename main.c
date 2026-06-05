@@ -1,46 +1,46 @@
 #include <stdio.h>
 #include <conio.h>
-#include <windows.h>
 #include <string.h>
+#include <windows.h>
 
 #include "Global.h"
-#include "Editor.h"
-#include "cursor.h"
-#include "file.h"
+#include "nakata.h"
+#include "fahmi.h"
+#include "rena.h"
 
 DataEditor editor;
 
 int main() {
-    newFile(); //ini untuk inisialisasi awal
+    int  ch, ch2;
+    char namaFileBuka[100];
 
-    int ch, ch2;
-
-    while (1) {
+    newFile();
+    
+    while (1) {      
         render();
-
         ch = getch();
 
-        // =====================
-        // EXIT
-        // =====================
-        if (ch == 27 || ch == 17) break; // ESC atau Ctrl+Q
+        /* ======================== EXIT ======================== */
+        if (ch == 27 || ch == 17)
+            break;
 
-        // =====================
-        // CTRL SHORTCUT
-        // =====================
-        else if (ch == 14) { // Ctrl+N
+        /* ==================== CTRL SHORTCUT ==================== */
+        else if (ch == 14) {
             newFile();
         }
-        else if (ch == 15) { // Ctrl+O
-            openFile();
+        else if (ch == 15) {
+            printf("\nBuka file: ");
+            fgets(namaFileBuka, sizeof(namaFileBuka), stdin);
+            namaFileBuka[strcspn(namaFileBuka, "\n")] = '\0';
+            if (strlen(namaFileBuka) > 0) {
+                openFile(namaFileBuka);
+            }
         }
-        else if (ch == 19) { // Ctrl+S
+        else if (ch == 19) {
             saveFile();
         }
 
-        // =====================
-        // ENTER & BACKSPACE
-        // =====================
+        /* ================= ENTER & BACKSPACE ================= */
         else if (ch == 13) {
             tekan_enter();
         }
@@ -48,21 +48,18 @@ int main() {
             hapus_backspace();
         }
 
-        // =====================
-        // ARROW KEY
-        // =====================
+        /* ==================== ARROW KEY ==================== */
         else if (ch == 0 || ch == 224) {
-    ch2 = getch();
-    switch (ch2) {
-        case 72: gerakAtas(); break;
-        case 80: gerakBawah(); break;
-        case 75: gerakKiri(); break;
-        case 77: gerakKanan(); break;
-    }
+            ch2 = getch();
+            switch (ch2) {
+                case 72: gerakAtas();  break;
+                case 80: gerakBawah(); break;
+                case 75: gerakKiri();  break;
+                case 77: gerakKanan(); break;
+            }
         }
-        // =====================
-        // INPUT KARAKTER
-        // =====================
+
+        /* ================= INPUT KARAKTER ================= */
         else if (ch >= 32 && ch <= 126) {
             ketik_huruf((char)ch);
         }
