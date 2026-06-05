@@ -1,12 +1,11 @@
 #ifndef RENA_H
 #define RENA_H
-
+ 
 #include "Global.h"
-
-void shift_kanan(Baris *baris, int x, int batas);
-void shift_kiri(Baris *baris, int x);
+ 
+int reallocBaris(Baris *baris, int kapasitasBaru);
 void tekan_enter();
-void gerakBawah();
-void openFile(char* namaFile);
-
+void gerakBawah();          /* FIX #3: tanpa parameter DataEditor* */
+void openFile(char *namaFile);
+ 
 #endif
